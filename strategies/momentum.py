@@ -1,7 +1,9 @@
 # https://www.oreilly.com/content/algorithmic-trading-in-less-than-100-lines-of-python-code/
+# todo separate strategies into another df
 # todo check to see how much it is trading
 # todo change to go with best strategy
 # should I do this in the data frame?  `
+# todo track trades and profit
 
 import configparser
 
@@ -17,8 +19,8 @@ oanda = opy.API(environment='practice',
                 access_token=config['oanda']['access_token'])
 
 data = oanda.get_history(instrument='EUR_USD',  # our instrument
-                         start='2016-12-08',  # start data
-                         end='2016-12-10',  # end date
+                         start='2020-03-22',  # start data
+                         end='2020-03-24',  # end date
                          granularity='M1')  # minute bars
 
 df = pd.DataFrame(data['candles']).set_index('time')
@@ -28,6 +30,7 @@ df.index = pd.DatetimeIndex(df.index)
 df.info()
 
 # todo account for slippage and trade fees
+# (df['position_120'].diff() != 0).sum()
 df['returns'] = np.log(df['closeAsk'] / df['closeAsk'].shift(1))
 
 cols = []
@@ -41,8 +44,12 @@ strats = ['returns']
 
 for col in cols:
     strat = 'strategy_%s' % col.split('_')[1]
+    # strat = f'strategy_{}' # fix previous code
+    # todo add code to make columns based on if trade happened, 863393  enter value of trade fee in pips
     df[strat] = df[col].shift(1) * df['returns']
     strats.append(strat)  # 23
+
+
 
 df[strats].dropna().cumsum().apply(np.exp).plot()
 plt.show()
