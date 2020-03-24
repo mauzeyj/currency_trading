@@ -1,5 +1,4 @@
 # https://www.oreilly.com/content/algorithmic-trading-in-less-than-100-lines-of-python-code/
-# todo separate strategies into another df
 # todo check to see how much it is trading
 # todo change to go with best strategy
 # should I do this in the data frame?  `
@@ -35,23 +34,27 @@ df['returns'] = np.log(df['closeAsk'] / df['closeAsk'].shift(1))
 
 cols = []
 
+strategies = pd.DataFrame()
+
+# todo create function that adds this momentum strategy   moving average momentum
+# but the returns are off of the log
 for momentum in [15, 30, 60, 120]:
     col = 'position_%s' % momentum
-    df[col] = np.sign(df['returns'].rolling(momentum).mean())
+    strategies[col] = np.sign(df['returns'].rolling(momentum).mean())
     cols.append(col)
 
-strats = ['returns']
+strats = []
+
+strategy_returns = pd.DataFrame()
 
 for col in cols:
     strat = 'strategy_%s' % col.split('_')[1]
     # strat = f'strategy_{}' # fix previous code
     # todo add code to make columns based on if trade happened, 863393  enter value of trade fee in pips
-    df[strat] = df[col].shift(1) * df['returns']
-    strats.append(strat)  # 23
+    strategy_returns[strat] = strategies[col].shift(1) * df['returns']
+    strats.append(strat)
 
-
-
-df[strats].dropna().cumsum().apply(np.exp).plot()
+strategy_returns[strats].dropna().cumsum().apply(np.exp).plot()
 plt.show()
 
 
