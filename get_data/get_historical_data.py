@@ -27,3 +27,4 @@ def get_data(instrument='EUR_USD', start='2020-03-22', end='2020-03-24', granula
     df = pd.DataFrame(data['candles']).set_index('time')
 
     df.index = pd.DatetimeIndex(df.index)
+    return df
