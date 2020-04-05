@@ -4,6 +4,7 @@ import oandapy as opy
 import pandas as pd
 
 
+# todo get data should return all  of the data that is available?
 def get_data(instrument='EUR_USD', start='2020-03-22', end='2020-03-24', granularity='M1'):
     """
     Retrieves data from Oanda, puts candles data into pandas dataframe, sets index to time

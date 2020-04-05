@@ -1,15 +1,5 @@
 # https://www.oreilly.com/content/algorithmic-trading-in-less-than-100-lines-of-python-code/
-# todo check to see how much it is trading
-# todo change to go with best strategy
-# todo change build strategy only with good data.
-# should I do this in the data frame?  `
-# todo track trades and profit
 
-# todo strategy isn't shifting to the most profitable one correctly
-
-"""
-block each function and document and test. This shouldn't flail around so much
-"""
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,37 +7,35 @@ import pandas as pd
 
 from get_data.get_historical_data import get_data
 
+
+def pips_difference(df):
+    return df['closeAsk'] - df['closeAsk'].shift(1)
+
+
+def close_ask_diff_momentum(df, average_bars: list):  # todo change to take a list
+    strat_name = f'strategy_close_ask_diff_{average_bars}'
+    strat = np.sign(df['pips'].rolling(average_bars).mean())
+    return pd.Series(data=strat, name=strat_name)
+
+
+def calc_returns(strategy_action_df, data_df):
+    returns_df = pd.DataFrame
+    # data_df['pips'] = pips_difference(data_df)
+    for strat in list(strategy_action_df):
+        returns_df[strat] = strategy_action_df[strat].shift(1) * data_df['pips']
+    return returns_df
+
+
+def aggregate_strategies(*argv):  # todo use config then argparse for this
+
+    strategies = []
+    for arg in argv:
+        strategies.append(arg)
+    return pd.concat(strategies, axis=1)
+
+
 df = get_data()
-
-def close_ask_diff_momentum(data, average_bars):
-
-
-# todo account for slippage and trade fees
-# (df['position_120'].diff() != 0).sum()
-# df['returns'] = np.log(df['closeAsk'] / df['closeAsk'].shift(1))
-# moved to actual pips. not sure why they were using log
-df['returns'] = df['pips'] = df['closeAsk'] - df['closeAsk'].shift(1)
-cols = []
-
-strategies = pd.DataFrame()
-# todo I think that I am creating my best strategy incorrectly or too soon
-# todo create function that adds this momentum strategy   moving average momentum
-# but the returns are off of the log
-# todo pull these out to be parameters of class
-for momentum in [15, 30, 60, 120]:
-    col = 'strategy_%s' % momentum
-    strategies[col] = np.sign(df['returns'].rolling(momentum).mean())
-    cols.append(col)
-
-strats = []
-strategy_returns = pd.DataFrame()
-
-for col in cols:
-    strat = 'strategy_%s' % col.split('_')[1]
-    # strat = f'strategy_{}' # fix previous code
-    # todo add code to make columns based on if trade happened, enter value of trade fee in pips
-    strategy_returns[strat] = strategies[col][120:].shift(1) * df['returns'][120:]
-    strats.append(strat)
+df['pips'] = pips_difference(df)  # todo should I just put this in get_data()?
 
 # best strategy
 # fill na with 0?   what does this do?
@@ -65,11 +53,10 @@ best_strategy = cumulative_returns.idxmax(axis=1)
 
 # best_strategy = strategy_returns.dropna().cumsum().idxmax(axis = 1) # .apply(np.exp)
 best_action = []
-"""
-Something is happening between the best action and the returns. It is off by one or something. 
-example 3 23 00 17    the best strategy is positive but the rest are negative. 
 
-"""
+
+def
+
 # this needs to be going over the cumulative returns
 for col, ind in zip(best_strategy.values, best_strategy.index.values):  # zeros towards beginning cut top of df?
     best_action.append(strategies.loc[ind, col])
