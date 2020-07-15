@@ -5,7 +5,7 @@ import pandas as pd
 
 
 # todo get data should return all  of the data that is available?
-def get_data(instrument='EUR_USD', start='2020-03-22', end='2020-03-24', granularity='M1'):
+def get_data(instrument='EUR_USD', start='2020-03-01', end='2020-03-24', granularity='M1'):
     """
     Retrieves data from Oanda, puts candles data into pandas dataframe, sets index to time
     :param instrument: string: instrument that data is requested for ex
@@ -29,3 +29,6 @@ def get_data(instrument='EUR_USD', start='2020-03-22', end='2020-03-24', granula
 
     df.index = pd.DatetimeIndex(df.index)
     return df
+
+
+def get_lots_of_data(instrument='EUR_USD', start='2018-01-01', end='2020-06-01', granularity='M1'):

@@ -1,37 +1,23 @@
-## Welcome to GitHub Pages
 
-You can use the [editor on GitHub](https://github.com/mauzeyj/currency_trading/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+The final goal of this is to have a multiple data pipelines that collect currency data
+and then pass that data to a reinforcement learning bot. The bot's model will be capable 
+of consuming ticket data aggregated to arbitrary time intervals as well as some sort of 
+oc
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+List of things that needs to be done. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+ - [ ] get lots of historical bar data, maybe 5 minute
+ - [ ] train time series neural net on currency data to predict price or prices
+ - [ ] get lots of frequent tweet data or similar for the currency market
+ - [ ] train models to predict sentiment 
+   - [ ] create quick tool to label sentiment or use aws a2i
+ - [ ] create robust live data streaming on aws docker image collecting and passing to agent
+ - [ ] create reinforcement learning agent that uses transfer learning to give it a head start
+ - [ ] use trading strategies alongside agent to use imitation learning to give it direction. 
+ 
+ 
+ Do I need to create an actual play environment? Maybe use a months data to ramp it into a play account and see how it does. 
+ 
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/mauzeyj/currency_trading/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
