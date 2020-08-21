@@ -7,7 +7,7 @@ oc
 
 List of things that needs to be done. 
 
- - [ ] get lots of historical bar data, maybe 5 minute
+ - [ ] get lots of historical bar data, maybe 5 minute bars. initially in csv is fine
  - [ ] train time series neural net on currency data to predict price or prices
  - [ ] get lots of frequent tweet data or similar for the currency market
  - [ ] train models to predict sentiment 
